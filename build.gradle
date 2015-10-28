@@ -1,0 +1,52 @@
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
+ext{
+
+}
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'application'
+apply plugin: "jacoco"
+
+configurations {
+    aspectjJars
+}
+
+mainClassName = 'com.toast.beef.wang.Launcher'
+
+run {
+    args "-d"
+}
+
+repositories {
+    mavenCentral()
+}
+
+archivesBaseName = 'template-project'
+group = 'lbw.template.aspect'
+
+version = hasProperty('forRelease') ? '1.0' : '1.1-SNAPSHOT'
+
+processResources {
+    from('src/main/java') {
+        include '**/*.properties'
+        include '**/*.xml'
+    }
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    compile 'org.aspectj:aspectjrt:1.8.3'
+    compile 'org.aspectj:aspectjweaver:1.8.3'
+    compile 'com.google.guava:guava:18.0'
+    aspectjJars 'org.aspectj:aspectjweaver:1.8.3'
+}
+
+applicationDefaultJvmArgs = [
+        "-javaagent:${configurations.aspectjJars.singleFile}"
+]

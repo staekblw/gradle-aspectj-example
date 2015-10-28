@@ -1,0 +1,10 @@
+<aspectj>
+    <aspects>
+        <aspect name="com.toast.beef.wang.aspect.LoggerAspect" />
+    </aspects>
+    <!--<weaver options="-verbose -debug -showWeaveInfo"/>-->
+    <weaver>
+        <include within="com.toast.beef.wang.SomeService$InnerClass" />
+        <include within="com.toast.beef.wang.aspect.*" />
+    </weaver>
+</aspectj>
